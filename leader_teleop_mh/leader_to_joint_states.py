@@ -78,7 +78,7 @@ class MHLeaderToJointStates(Node):
     def joint_states_callback(self):
         joint_state = JointState()
         joint_state.header.stamp = rclpy.clock.Clock().now().to_msg()
-        joint_state.name = ['leg303_grip1', 'leg303_grip2', 'leg303_joint1', 'leg303_joint2', 'leg303_joint3', 'leg303_joint4', 'leg303_joint5', 'leg303_joint6', 'leg303_joint7']
+        joint_state.name = ['leg303_joint1', 'leg303_joint2', 'leg303_joint3', 'leg303_joint4', 'leg303_joint5', 'leg303_joint6', 'leg303_joint7', 'leg303_grip1', 'leg303_grip2']
         joint_state.position = [self.joint1_pos, self.joint2_pos, self.joint3_pos, self.joint4_pos, self.joint5_pos, self.joint6_pos, self.joint7_pos, 0, 0]
         # joint_state.velocity = [self.joint1_vel, self.joint2_vel, self.joint3_vel, self.joint4_vel, self.joint5_vel, self.joint6_vel, self.joint7_vel]
         # joint_state.effort = [self.joint1_eff, self.joint2_eff, self.joint3_eff, self.joint4_eff, self.joint5_eff, self.joint6_eff, self.joint7_eff]
