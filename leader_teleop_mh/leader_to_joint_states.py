@@ -9,7 +9,7 @@ class MHLeaderToJointStates(Node):
 
     def __init__(self):
         super().__init__('mh_leader_to_joint_states')
-        self.joint_state_pub_ = self.create_publisher(JointState, "/leg301/joint_set", 10)
+        self.joint_state_pub_ = self.create_publisher(JointState, "/leg303/joint_set", 10)
 
         self.feedback1_sub = self.create_subscription(Float64, '/read_joint1_1', self.update_joint1_feedback, 100)
         self.feedback2_sub = self.create_subscription(Float64, '/read_joint1_2', self.update_joint2_feedback, 100)
@@ -43,48 +43,45 @@ class MHLeaderToJointStates(Node):
         self.joint6_eff = 0.0
         self.joint7_eff = 0.0
 
-        joint_states_publish_period = 0.01  # seconds
+        joint_states_publish_period = 0.2  # seconds
         self.joint_states_timer = self.create_timer(joint_states_publish_period, self.joint_states_callback)
 
     def update_joint1_feedback(self, msg):
         self.joint1_pos = msg.data
-        self.joint1_vel = 0.5
+        self.joint1_vel = 0.0
         self.joint1_eff = 0.0
     def update_joint2_feedback(self, msg):
         self.joint2_pos = msg.data
-        self.joint2_vel = 0.5
+        self.joint2_vel = 0.0
         self.joint2_eff = 0.0
     def update_joint3_feedback(self, msg):
         self.joint3_pos = msg.data
-        self.joint3_vel = 0.5
+        self.joint3_vel = 0.0
         self.joint3_eff = 0.0
     def update_joint4_feedback(self, msg):
         self.joint4_pos = msg.data
-        self.joint4_vel = 0.5
+        self.joint4_vel = 0.0
         self.joint4_eff = 0.0
     def update_joint5_feedback(self, msg):
         self.joint5_pos = msg.data
-        self.joint5_vel = 0.5
+        self.joint5_vel = 0.0
         self.joint5_eff = 0.0
     def update_joint6_feedback(self, msg):
         self.joint6_pos = msg.data
-        self.joint6_vel = 0.5
+        self.joint6_vel = 0.0
         self.joint6_eff = 0.0
     def update_joint7_feedback(self, msg):
         self.joint7_pos = msg.data
-        self.joint7_vel = 0.5
+        self.joint7_vel = 0.0
         self.joint7_eff = 0.0
 
     def joint_states_callback(self):
         joint_state = JointState()
-        joint_state.name = ["joint1","joint2","joint3","joint4","joint5","joint6","joint7",]
-        joint_state.header.stamp = self.get_clock().now().to_msg()
-        num_joints = len(joint_state.name)
-        
-        joint_state.position = [self.joint1_pos, self.joint2_pos, self.joint3_pos, self.joint4_pos, self.joint5_pos, self.joint6_pos, self.joint7_pos]
-        joint_state.velocity = [self.joint1_vel, self.joint2_vel, self.joint3_vel, self.joint4_vel, self.joint5_vel, self.joint6_vel, self.joint7_vel]
-        joint_state.effort = [self.joint1_eff, self.joint2_eff, self.joint3_eff, self.joint4_eff, self.joint5_eff, self.joint6_eff, self.joint7_eff]
-        
+        joint_state.header.stamp = rclpy.clock.Clock().now().to_msg()
+        joint_state.name = ['leg303_grip1', 'leg303_grip2', 'leg303_joint1', 'leg303_joint2', 'leg303_joint3', 'leg303_joint4', 'leg303_joint5', 'leg303_joint6', 'leg303_joint7']
+        joint_state.position = [self.joint1_pos, self.joint2_pos, self.joint3_pos, self.joint4_pos, self.joint5_pos, self.joint6_pos, self.joint7_pos, 0, 0]
+        # joint_state.velocity = [self.joint1_vel, self.joint2_vel, self.joint3_vel, self.joint4_vel, self.joint5_vel, self.joint6_vel, self.joint7_vel]
+        # joint_state.effort = [self.joint1_eff, self.joint2_eff, self.joint3_eff, self.joint4_eff, self.joint5_eff, self.joint6_eff, self.joint7_eff]
         self.joint_state_pub_.publish(joint_state)
         self.get_logger().info('Publishing: "%s"' % str(joint_state))
 

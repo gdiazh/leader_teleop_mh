@@ -1,0 +1,7 @@
+*.pyc
+build/
+install/
+log/
+Session.vim
+.vscode/
+__pycache__/
